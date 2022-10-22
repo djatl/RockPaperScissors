@@ -6,28 +6,11 @@ const PAPER="Paper";
 
 function getComputerChoice () {
     let pick = Math.floor(Math.random()*3);
-    console.log("computer choice: " + pick)
+    //console.log("computer choice: " + pick)
     switch (pick) {
         case 0: return ROCK;
         case 1: return SCISSORS;
         case 2: return PAPER;
-    }
-}
-
-
-function getPlayerChoice () {
-    loop1:
-    while(true) {
-        let playerInput = prompt("Enter your choice: r,s,p");
-        let firstLetter = playerInput.substring(0,1).toLowerCase();
-        switch (firstLetter) {
-            case "r": return ROCK;
-            case "s": return SCISSORS;
-            case "p": return PAPER;
-            default:
-                console.log("Invalid Choice. Try again!");
-                continue loop1;
-        }
     }
 }
 
@@ -94,9 +77,9 @@ buttons.forEach((button) => {
             computerScore = 0;
             gameDisplay.textContent="";
         }
-        //let computerSelection = getComputerChoice();
+        
         let playerSelection = button.id;
-        [result,score] = playRound(playerSelection/*,getComputerChoice*/);
+        [result,score] = playRound(playerSelection);
         
         switch (score) {
             case -1: 
@@ -123,48 +106,3 @@ buttons.forEach((button) => {
             
     });
 });
-
-
-function game() {
-    let result
-    let score
-    let wins=0
-    let losses=0
-    let ties=0
-    let tally=0
-
-    /*
-    for (let i=0; i<5; i++){
-        let computerSelection = getComputerChoice();
-        let playerSelection = getPlayerChoice();
-        [result,score] = playRound(playerSelection,computerSelection);
-        switch (score) {
-            case -1: 
-                losses++;
-                break;
-            case 0:
-                ties++;
-                break;
-            case 1:
-                wins++;
-                break;
-            default:
-                error("incorrect score for this round");
-        }
-        console.log(playerSelection, computerSelection, result);
-        tally += score;
-    }
-*/
-
-    console.log("Wins: "+wins+", Losses: "+losses+", Ties: "+ties);
-    if (tally > 0) {
-        console.log("Congratulations! You Won")
-    } else if (tally < 0) {
-        console.log("Condolences. You Lost")
-    } else {
-        console.log("A TIE!")
-    }
-
-    console.log("Try Again?");
-
-}
