@@ -6,6 +6,7 @@ const PAPER="Paper";
 
 function getComputerChoice () {
     let pick = Math.floor(Math.random()*3);
+    console.log("computer choice: " + pick)
     switch (pick) {
         case 0: return ROCK;
         case 1: return SCISSORS;
@@ -30,7 +31,8 @@ function getPlayerChoice () {
     }
 }
 
-function playRound(playerSelection, computerSelection) {
+function playRound(playerSelection) {
+    let computerSelection = getComputerChoice();
     let result;
     let score;
     if (playerSelection === computerSelection) {
@@ -63,10 +65,64 @@ function playRound(playerSelection, computerSelection) {
     } else {
         error ("playerSelection not found");
     }
-
+    //console.log(result);
     return [result,score];
 
 }
+
+let playerScore = 0;
+let computerScore = 0;
+let result = "Ready to Play?";
+
+const resultDisplay = document.querySelector('#result');
+const playerDisplay = document.querySelector('#playerScore');
+const computerDisplay = document.querySelector('#computerScore');
+const gameDisplay = document.querySelector('#gameResult');
+
+resultDisplay.textContent = result;
+playerDisplay.textContent = playerScore;
+computerDisplay.textContent = computerScore;
+
+
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (playerScore >=5 || computerScore >=5) {
+            //reset score
+            playerScore = 0;
+            computerScore = 0;
+            gameDisplay.textContent="";
+        }
+        //let computerSelection = getComputerChoice();
+        let playerSelection = button.id;
+        [result,score] = playRound(playerSelection/*,getComputerChoice*/);
+        
+        switch (score) {
+            case -1: 
+                computerScore++;
+                break;
+            case 0:
+                break;
+            case 1:
+                playerScore++;
+                break;
+            default:
+                error("incorrect score for this round");
+        }
+
+        resultDisplay.textContent = result;
+        playerDisplay.textContent = playerScore;
+        computerDisplay.textContent = computerScore;
+
+        if (playerScore >= 5) {
+            gameDisplay.textContent = "You won the game! Choose again to start a new game.";
+        } else if (computerScore >=5) {
+            gameDisplay.textContent = "You lost the game! Choose again to start a new game.";
+        }
+            
+    });
+});
 
 
 function game() {
@@ -77,6 +133,7 @@ function game() {
     let ties=0
     let tally=0
 
+    /*
     for (let i=0; i<5; i++){
         let computerSelection = getComputerChoice();
         let playerSelection = getPlayerChoice();
@@ -97,6 +154,7 @@ function game() {
         console.log(playerSelection, computerSelection, result);
         tally += score;
     }
+*/
 
     console.log("Wins: "+wins+", Losses: "+losses+", Ties: "+ties);
     if (tally > 0) {
